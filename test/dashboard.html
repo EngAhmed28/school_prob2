@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title> أستبيان المدارس </title>
+    <meta name="description" content="Examples for creative website header animations using Canvas and JavaScript" />
+    <meta name="keywords" content="header, canvas, animated, creative, inspiration, javascript" />
+    <meta name="author" content="Codrops" />
+
+    <link rel="stylesheet" href="css/bootstrap-arabic-theme.min.css" />
+    <link rel="stylesheet" href="css/bootstrap-arabic.min.css" />
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Cairo" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="r-estbian col-xs-12 r-xs">
+        <div class="container r-xs">
+            <div class="col-xs-12 r-nav-school">
+                <ul>
+                    <li><a href="">  الرئيسية </a></li>
+                    <li><a href=""> عن الاستبيان </a></li>
+                    <li><a href=""> شروط الاستبيان  </a></li>
+                </ul>
+            </div>
+            <div class="col-xs-12 r-nav r-xs">
+                <div class="col-xs-12 r-xs">
+                    <div class="col-md-4 col-sm-3"></div>
+                    <div class="col-md-4 col-sm-6">
+                        <img src="img/logo.png" alt="" class="r-dashboard center-block">
+                    </div>
+                    <div class="col-md-4 col-sm-3"></div>
+                </div>
+                <div class="col-xs-12 r-dash-log">
+                    <div class="col-sm-2 col-xs-0 "></div>
+                    <div class="col-sm-4 col-xs-6">
+                        <button class="r-dash-link center-block"> <a href=" "> login</a></button>
+                    </div>
+                    <div class="col-sm-4 col-xs-6">
+                        <button class="r-dash-link  center-block"> <a href=" "> regist </a></button>
+                    </div>
+                    <div class="col-sm-2 col-xs-0"></div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+    <script type="text/javascript" src="js/jquery-1.10.1.min.js"></script>
+    <script src="js/bootstrap-arabic.min.js"></script>
+
+
+    <!---------- flow chart ----------->
+    <script>
+        $(document).ready(function() {
+            columnChart();
+
+            function columnChart() {
+                var item = $('.chart', '.column-chart').find('.item'),
+                    itemWidth = 100 / item.length;
+                item.css('width', itemWidth + '%');
+
+                $('.column-chart').find('.item-progress').each(function() {
+                    var itemProgress = $(this),
+                        itemProgressHeight = $(this).parent().height() * ($(this).data('percent') / 100);
+                    itemProgress.css('height', itemProgressHeight);
+                });
+            };
+        });
+
+    </script>
+
+</body>
+
+</html>
