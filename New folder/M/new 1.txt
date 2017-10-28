@@ -1,0 +1,105 @@
+public function get_school($id,$id2){
+  
+         $this->db->select('*');
+        $this->db->from('schools');
+        $this->db->where("area_id_fk=",''.$id.'');
+        $this->db->where("learning_office=",''.$id2.'');
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $row) {
+                $data[] = $row;
+            }
+            return $data;
+        }
+        return false;
+}
+
+public function schoolreports_area_2(){
+           $this->db->select('*');
+        $this->db->from('poll'); 
+        $this->db->join("questions","questions.questation_id_pk=poll.question_id_fk");
+        $this->db->join("schools","schools.school_id_pk=poll.school_id_fk");
+       
+        if ($this->input->post("question_id_fk")!="all"){
+        $this->db->where("poll.question_id_fk",$this->input->post("question_id_fk"));
+        }
+         ////////////////////////////////////////
+    
+     if($this->input->post("school_id")!='all'){
+            $this->db->where("poll.school_id_fk",$this->input->post("school_id"));
+        }
+        ///////////////////////////////
+       if($this->input->post("answer_id_fk")!="all"){
+           $this->db->where("poll.answer_id_fk",$this->input->post("answer_id_fk"));
+        }
+        ////////////////////////////
+      
+        
+        $query = $this->db->get(); 
+            if($query->num_rows() != 0)
+            {   foreach ($query->result() as $row) {
+                 $data[] = $row;
+                 }
+                 
+       
+            return $data;
+            }
+            else
+            {
+                return false;
+            }
+    
+}
+
+    ////////////////////////////////////////
+    
+    
+    public function schoolreports_area(){
+       
+        $this->db->select('*');
+        $this->db->from('poll'); 
+        $this->db->join("questions","questions.questation_id_pk=poll.question_id_fk");
+        $this->db->join("schools","schools.school_id_pk=poll.school_id_fk");
+       
+        if ($this->input->post("question_id_fk")!="all"){
+        $this->db->where("poll.question_id_fk",$this->input->post("question_id_fk"));
+        }
+         ////////////////////////////////////////
+    
+       //////////////////////////
+         if ($this->input->post("area_id_fk")!=""){
+      
+        $this->db->where("schools.area_id_fk",$this->input->post("area_id_fk"));
+       }
+       //////////////////////
+       if ($this->input->post("learning_office")!=""){
+      
+             $this->db->where("schools.learning_office",$this->input->post("learning_office"));
+       }
+       /////////////////////////////
+     if ($this->input->post("school_id")!='all'){
+            $this->db->where("poll.school_id_fk",$this->input->post("school_id"));
+        }
+        ///////////////////////////////
+       if($this->input->post("answer_id_fk")!="all"){
+           $this->db->where("poll.answer_id_fk",$this->input->post("answer_id_fk"));
+        }
+        ////////////////////////////
+        $this->db->group_by("questation_id_pk");
+        
+        $query = $this->db->get(); 
+            if($query->num_rows() != 0)
+            {   foreach ($query->result() as $row) {
+                 $data[] = $row;
+                 }
+                 
+       
+            return $data;
+            }
+            else
+            {
+                return false;
+            }
+    }
+    ///////////////////////////////////////////////////

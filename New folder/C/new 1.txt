@@ -1,0 +1,29 @@
+    
+    public function area_reports(){
+    if($this->input->post("area_id") || $this->input->post("id_offic") ){
+     $area_id =($this->input->post("area_id"));
+     $id_offic =($this->input->post("id_offic"));
+     $data['area_office'] = $this->Mainmodel->get_school($area_id,$id_offic);
+   //  print_r($data['area_office']);
+     $this->load->view('bc/load2',$data);
+    }else{
+    $data["content"]="bc/area_reports";
+    $this->load->view('index',$data);
+    }
+	/////////////////////////
+	
+	public function fullreport_area(){
+ 
+
+    if( $_POST["school_id"] == "all" ){
+            $data["results"]=$this->Mainmodel->schoolreports_area_2();
+            $data['school_id']='all';
+            $this->load->view("bc/fullreport_area2",$data);
+       }else{
+           $data["results"]=$this->Mainmodel->schoolreports_area();
+           $data['school_id']=$_POST["school_id"];
+           $this->load->view("bc/fullreport_area",$data); 
+          }
+
+
+}

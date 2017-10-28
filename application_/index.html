@@ -1,0 +1,81 @@
+
+<div class="col-xs-12 r-nav r-xs">
+
+
+	<div class="col-sm-4 col-xs-6  r-xs">
+		<h3 class="text-center"> المملكه العربية السعودية - وزارة التعليم</h3>
+		<h3 class="text-center"> إداره التعليم بمحافظه الليث </h3>
+		<h3 class="text-center"> الشؤون التعليمية - التوجيه والارشاد</h3>
+		<h3 class="text-center"> وحدة الخدمات الارشادية</h3>
+		<h3 class="text-center"> العام الدراسي 143هـ / 143هـ </h3>
+	</div>
+
+	<div class="col-md-1 hidden-xs"></div>
+	<div class="col-sm-4 hidden-xs r-header">
+		<h3 class="text-center"> قائمة مشكلات </h3>
+	</div>
+	<div class="col-sm-3 col-xs-6">
+		<img src="<?php echo base_url("public/fe/")?>img/logo.png" alt="" class="center-block">
+	</div>
+
+</div>
+<div class="col-xs-12 r-header1">
+	<h3 class="text-center">  الطلاب فى المرحلتين الثانوية والمتوسطة </h3>
+</div>
+<div class="col-xs-12 ">
+	<div class="col-xs-12 r-xs r-school-forms">
+		<div class=" col-sm-2 r-xs r-student1">
+			<h3 class="name text-center">اسم الطالب او رقم الهوية  </h3>
+		</div>
+		<div class=" col-sm-7 r-xs r-student1">
+			<h3 class="name "><input type="text" placeholder="إختيارى" name="student_identy" class="form-input"> </h3>
+		</div>
+		<div class="col-sm-3 r-xs">
+			<div class="col-xs-12 r-xs r-student1">
+				<h3 class="text-center r-name-space">
+					<select required name="stage_id_fk">
+						<option readonly="" value="">اختر الصف</option>
+						<?php foreach (selectrecords("stage_id_pk,stage_name",'stages',array("satge_type"=>$this->session->userdata("school_type"))) as $stage):?>
+						<option value="<?php echo $stage->stage_id_pk?>"><?php echo $stage->stage_name ?></option>
+						<?php endforeach;?>
+					</select>
+
+				</h3>
+			</div>
+
+		</div>
+	</div>
+	<div class="col-xs-12 r-table-1 r-xs">
+		<table style="width: 100%;">
+			<thead>
+			<tr>
+				<th><i class="fa fa-list" aria-hidden="true"></i></th>
+				<th>البيانات الاساسية</th>
+				<th>قوى</th>
+				<th>متوسط</th>
+				<th>ضعيف</th>
+				<th>لايوجد</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td class="r-num"> 1 </td>
+				<td class="text-left"> أعاني من مرض في القلب </td>
+				<td>
+					<input type="radio" name="gender" id="box-1"><label for="box-1"></label>
+				</td>
+				<td>
+					<input type="radio" name="gender" id="box-2"><label for="box-2"></label>
+				</td>
+				<td>
+					<input type="radio" name="gender" id="box-3"><label for="box-3"></label>
+				</td>
+				<td>
+					<input type="radio" name="gender" id="box-4"><label for="box-4"></label>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+
+</div>
