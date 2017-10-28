@@ -39,7 +39,7 @@ if ($this->input->post("login")){
         $data["content"]="fe/login";
         $this->load->view('index',$data);
     }
-    public function registration(){
+   /* public function registration(){
         if ($this->input->post("register")){
             $data["year"]=$this->input->post("year");
             $data["reg_date"]=time();
@@ -74,7 +74,7 @@ if ($this->input->post("login")){
         $data["content"]="fe/registration";
         $this->load->view('index',$data);
 
-    }
+    }*/
  public function maindata(){
   if($this->session->has_userdata('is_logged_in')==0){redirect('web/login');}
 
@@ -156,4 +156,55 @@ if ($this->input->post("login")){
 public function test(){
 echo serialize(array(1=>"قوي",2=>"متوسط",3=>"ضعيف",4=>"لايوجد"));
  }
+ 
+ 
+ 
+ 
+   public function registration(){
+        if($this->input->post("store_id")){
+              $this->load->model("Mainmodel"); 
+             $data['loaded'] =$this->Mainmodel->get_maktab($this->input->post("store_id"));
+           $this->load->view('fe/load',$data);
+        }else{
+            if ($this->input->post("register")){
+            $data["year"]=$this->input->post("year");
+            $data["reg_date"]=time();
+            $data["area_id_fk"]=$this->input->post("area_id_fk");
+            $data["governorate"]=$this->input->post("governorate");
+            $data["learning_office"]=$this->input->post("learning_office");
+            $data["school_type"]=$this->input->post("school_type");
+            $data["school_name"]=$this->input->post("school_name");
+            $data["ministry_numper"]=$this->input->post("ministry_numper");
+            $data["school_email"]=$this->input->post("school_email");
+            $data["manager_name"]=$this->input->post("manager_name");
+            $data["manager_phone"]=$this->input->post("manager_phone");
+            $data["first_stage"]=$this->input->post("first_stage");
+            $data["secound_stage"]=$this->input->post("secound_stage");
+            $data["thired_stage"]=$this->input->post("thired_stage");
+            $school_id_fk=insertrecords("schools",$data);
+            $user["name"]=$this->input->post("manager_name");
+            $user["user_email"]=$this->input->post("school_email");
+            $user["user_type"]="teacher";
+            $user["school_id_fk"]=$school_id_fk;
+            $user["user_name"]=$this->input->post("user_name");
+            $user["password"]=salt($this->input->post("password"));
+            insertrecords("users",$user);
+            $message="شكرا للتسجيل فى قائمة المشكلات اليك بينات التسجيل الخاصة بك وهى";
+            $message.=" اسم المستخدم   ".$this->input->post("user_name");
+            $message.="  كلمة المرور   ".$this->input->post("password");
+         //  sendEmailamessage("info@moe-sa.org","بيانات التسجيل",$this->input->post("school_email"),"بينات التسجيل فى قائمة المشكلات",$message);
+           redirect("web/login");
+        }
+
+
+        $data["content"]="fe/registration";
+        $this->load->view('index',$data);
+
+            
+        }
+        
+    }
+ 
+ 
+ 
 }

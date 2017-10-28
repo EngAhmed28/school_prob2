@@ -40,13 +40,28 @@
 
                                     <div class="form-group">
 
-                                        <select name="area_id_fk" class="form-control">
+                                        <select name="area_id_fk" id="area_id_fk" class="form-control" onchange="return lood($('#area_id_fk').val())">
                                             <option value="">اختر المنطقة التعليمية</option>
-                                            <?php foreach (selectrecords("*","learning_area")as $area):?>
-                                            <option value="<?php echo $area->area_id_pk?>"><?php echo $area->area_name?></option>
+                                            <?php 
+                                            $input=array(
+                                            "from_id_fk" =>"0"
+                                            );
+                                            
+                                            foreach (selectrecords("*","areas",$input)as $area):?>
+                                            <option value="<?php echo $area->id?>"><?php echo $area->name?></option>
                                             <?php endforeach;?>
                                         </select>
                                     </div>
+                                    
+                                    
+                                     <div class="form-group">
+
+                                        <select name="learning_office" id="optionearea1" class="form-control" >
+                                            <option value="">اختر المكتب </option>
+                                          
+                                        </select>
+                                    </div>
+                                    
                                     <div class="form-group">
                                         <select name="year" class="form-control">
                                             <option value="">اختر العام الدراسى</option>
@@ -57,9 +72,7 @@
                                         <input type="text" name="governorate" placeholder="المحافظة" class="form-email form-control" id="email"  required>
                                     </div>
 
-                                    <div class="form-group">
-                                        <input type="text" name="learning_office" placeholder="مكتب التربية والتعليم" class="form-email form-control" id="email"  required>
-                                    </div>
+                                   
 
 
                                     <div class="form-group" style="margin-bottom:3px;">
@@ -73,6 +86,10 @@
                                             </div>
                                         </div>
                                     </div>
+                                    
+                                    
+                                    
+                                    
 
                                     <div class="row">
                                         <div class="form-group col-md-12 col-sm-12">
@@ -115,3 +132,52 @@
          <?php form_close()?>
 
             </div>
+
+
+
+
+<script>
+    function lood(num){
+        $("#optionearea1").html('<option value="">--قم بالإختيار--</option>');
+        $("#optionearea2").html('<option value="">--قم بالإختيار--</option>');
+      
+        if(num>0 && num != '')
+        {
+            var dataString = 'store_id=' + num ;
+            $.ajax({
+                type:'post',
+                url: '<?php echo base_url() ?>web/registration',
+                data:dataString,
+                dataType: 'html',
+                cache:false,
+                success: function(html){
+                    $("#optionearea1").html(html);
+                }
+            });
+            return false;
+        }
+    }
+</script>
+
+<script>
+    function lood2(num){
+        $("#optionearea2").html('<option value="">--قم بالإختيار--</option>');
+        
+        if(num >0 && num != '')
+        {
+            var id = num;
+            var dataString = 'products_id=' + num ;
+            $.ajax({
+                type:'post',
+                url: '<?php echo base_url() ?>web/registration',
+                data:dataString,
+                dataType: 'html',
+                cache:false,
+                success: function(html){
+                    $("#optionearea2").html(html);
+                }
+            });
+            return false;
+        }
+    }
+</script>

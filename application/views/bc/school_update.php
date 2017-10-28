@@ -20,24 +20,52 @@
                 <!-- form start -->
                 <?php echo form_open("admin/update_school/".$result[0]->school_id_pk,array("role"=>"form"))?>
 
-<div class="box-body">
-    <div class="form-group">
-        <label for="exampleInputEmail1">اختر المنطقة التعليمية</label>
-        <select name="area_id_fk" class="form-control">
-
-            <?php foreach (selectrecords("*","learning_area")as $area){
-
-                if($result[0]->area_id_fk == $area->area_id_pk){
-                   $selected= 'selected="selected"';
-                }else{
-                    $selected= '';
-                }
-
-                ?>
-                <option value="<?php echo $area->area_id_pk?>" <?php echo $selected ;?> > <?php echo $area->area_name?></option>
-            <?php }?>
-        </select>
-    </div>
+                              <div class="box-body">
+                                   <div class="form-group">
+  <label for="exampleInputEmail1">اختر المنطقة التعليمية</label>
+                                        <select name="area_id_fk" id="area_id_fk" class="form-control" onchange="return lood2($('#area_id_fk').val(),<?php echo $result[0]->school_id_pk; ?>)">
+                                           <!--onchange="return lood($('#area_id_fk').val()) -->
+                                            <option value="">اختر المنطقة التعليمية</option>
+                                            <?php 
+                                            $input=array(
+                                             "from_id_fk" =>"0"
+                                            
+                                            );
+                                            
+                                            foreach (selectrecords("*","areas",$input)as $area){
+                                                   if($result[0]->area_id_fk == $area->id){
+                                                  $selected= 'selected="selected"';
+                                                     }else{
+                                                  $selected= '';
+                                                    }
+                                            ?>
+                                            <option value="<?php echo $area->id?>" <?php echo $selected ;?>><?php echo $area->name?></option>
+                                            <?php }?>
+                                        </select>
+                                    </div>
+                                    
+                                          
+                                        <div class="form-group">
+                                        <label for="exampleInputEmail1">اختر المكتب </label>
+                                        <select name="learning_office" id="optionearea1" class="form-control" >
+                                            <option value="">اختر المكتب </option>
+                                            <?php 
+                                            $inpute=array(
+                                             "from_id_fk" =>$result[0]->area_id_fk,
+                                            
+                                            );
+                                            
+                                            foreach (selectrecords("*","areas",$inpute)as $areaz){
+                                                   if($result[0]->learning_office == $areaz->id){
+                                                   $selectedx= 'selected="selected"';
+                                                         }else{
+                                                       $selectedx= '';
+                                                            }
+                                            ?>
+                                            <option value="<?php echo $areaz->id?>" <?php echo $selectedx ;?>><?php echo $areaz->name?></option>
+                                            <?php }?>
+                                        </select>
+                                    </div>
 
     <div class="form-group">
         <label for="exampleInputEmail1">اختر العام الدراسى</label>
@@ -50,10 +78,7 @@
         <label for="exampleInputEmail1">المحافظة</label>
         <input type="text" name="governorate" placeholder="المحافظة" value="<?php echo $result[0]->governorate; ?>" class="form-email form-control" id="email"  required>
     </div>
-    <div class="form-group">
-        <label for="exampleInputEmail1">مكتب التربية والتعليم</label>
-        <input type="text" name="learning_office" placeholder="مكتب التربية والتعليم" value="<?php echo $result[0]->learning_office; ?>" class="form-email form-control" id="email"  required>
-    </div>
+  
 
 
     <div class="form-group" style="margin-bottom:3px;">
@@ -149,6 +174,51 @@
 
 
 
+<script>
+    function lood(num){
+    //
+        $("#optionearea1").html('<option value="">--قم بالإختيار--</option>');
+        $("#optionearea2").html('<option value="">--قم بالإختيار--</option>');
+      
+        if(num>0 && num != '')
+        {
+            var dataString = 'store_id=' + num ;
+            $.ajax({
+                type:'post',
+                url: '<?php echo base_url() ?>web/registration',
+                data:dataString,
+                dataType: 'html',
+                cache:false,
+                success: function(html){
+                    $("#optionearea1").html(html);
+                }
+            });
+            return false;
+        }
+    }
+</script>
 
-
+<script>
+    function lood2(num,id){
+   
+        $("#optionearea1").html('<option value="">--قم بالإختيار--</option>');
+        $("#optionearea2").html('<option value="">--قم بالإختيار--</option>');
+      
+        if(num>0 && num != '')
+        {
+            var dataString = 'store_id=' + num ;
+            $.ajax({
+                type:'post',
+                url: '<?php echo base_url() ?>Admin/update_school/'+id+'/0',
+                data:dataString,
+                dataType: 'html',
+                cache:false,
+                success: function(html){
+                    $("#optionearea1").html(html);
+                }
+            });
+            return false;
+        }
+    }
+</script>
 

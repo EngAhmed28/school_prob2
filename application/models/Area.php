@@ -31,6 +31,21 @@ class Area extends CI_Model
         }
         return false;
     }
+    
+    
+    public function update($id){
+    $update = array(
+        'name'=>$this->input->post('area'),
+    );
+        $this->db->where('id', $id);
+        if($this->db->update('areas',$update)) {
+            return true;
+        }else{
+            return false;
+        }
+    
+    
+    }
 
 ///////update/////////
     public function getById($id){

@@ -268,6 +268,22 @@
 
                 <?php if ($this->session->userdata("user_type")=="owner"):?>
                     <li class="header">بنك الاسئلة</li>
+                    
+                   
+<li class="active treeview">
+    <a href="#">
+    <i class="fa fa-dashboard"></i> <span>إعدادات المناطق والمكاتب</span> <i class="fa fa-angle-left pull-left"></i>
+    </a>
+    <ul class="treeview-menu">
+    <li class="active">
+    <a href="<?php echo base_url("admin/add_areas")?>"><i class="fa fa-circle-o"></i> اضافة منطقة </a></li>
+        <li class="">
+    <a href="<?php echo base_url("admin/add_office")?>"><i class="fa fa-circle-o"></i> اضافة مكتب </a></li>
+    </ul>
+</li>
+                   
+                    
+                    
                     <li class="active treeview">
                         <a href="#">
                             <i class="fa fa-dashboard"></i> <span>قائمة المشكلات</span> <i class="fa fa-angle-left pull-left"></i>
@@ -285,8 +301,42 @@
                     <ul class="treeview-menu">
                         <li><a href="<?php echo base_url("admin/allschool")?>"><i class="fa fa-circle-o"></i> بيانات المدارس </a></li>
                         <li><a href="<?php echo base_url("admin/schoolstatics")?>"><i class="fa fa-hand-paper-o"></i> تقارير قائمة المشكلات </a></li>
+                    
+                    
+                    
+<li><a href="<?php echo base_url("admin/all_schools_report")?>"><i class="fa fa-hand-paper-o"></i> تقارير طلاب المدارس </a></li>                  
+<li><a href="<?php echo base_url("admin/ReportAnswersCount")?>"><i class="fa fa-hand-paper-o"></i> تقييمات الأسئلة </a></li>
+                            
+<li><a href="<?php echo base_url("admin/public_report")?>"><i class="fa fa-hand-paper-o"></i> تقرير عام  </a></li>
+                            
+                                          
+                    
+                    
+
+<li><a href="<?php echo base_url("admin/all_questions_report_byschool")?>"><i class="fa fa-hand-paper-o"></i> تقرير احصائي اجابات مدرسة معينة  </a></li>
+                            
+                                          
+                    
+   
+
+
+
+<!--  
+all_answers_report
+-->     
+                    
+                   
+                    
                     </ul>
                 </li>
+                
+                
+                
+                
+                
+                
+                
+                
                 <?php endif;?>
             </ul>
         </section>

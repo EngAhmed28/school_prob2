@@ -45,14 +45,13 @@ class Admin extends CI_Controller {
             insertrecords("questions",$data);
             message("success","تم الحفظ بنجاح");
         }
-        //$data["content"]="bc/questation";
-        $data["content"]="bc/view";
+        $data["content"]="bc/questation";
         $this->load->view('index',$data);
     }
 
 
 
-    public function update_school($id,$id_users){
+  /*  public function update_school($id,$id_users){
         if($this->session->has_userdata('is_logged_in')==0){redirect('admin/login');}
         if ($this->input->post("update")){
 
@@ -83,6 +82,9 @@ class Admin extends CI_Controller {
         $data["content"]="bc/school_update";
         $this->load->view('index',$data);
     }
+    */
+    
+    
     public function delete_school($school_id,$user_id){
         
          deleterecorde('school_id_pk',$school_id,'schools');
@@ -121,11 +123,12 @@ public function allschool(){
     $this->load->view('index',$data);
 
 }
+/*
 public function schoolstatics(){
     $data["content"]="bc/schoolstatics";
     $this->load->view('index',$data);
 
-}
+}*/
 
     public function suspend_articles($id, $clas ,$id_users)
     {
@@ -155,7 +158,7 @@ public function schoolreports(){
     $this->load->view("bc/request/schoolreports",$data);
 
 }
-
+/*
 public function fullreport(){
    // echo"<pre>";
    // print_r($_POST);
@@ -174,7 +177,11 @@ public function fullreport(){
           }
 
 
-}
+}*/
+
+
+
+
     public function edit_profile($id){
         if($this->session->has_userdata('is_logged_in')==0){redirect('admin/login');}
 
@@ -191,89 +198,326 @@ public function fullreport(){
         $data["content"]="bc/users";
         $this->load->view('index',$data);
     }
-
-
-    //--------------------------------ahmed------------------//
-
-
-
-
+    
+    
+    
+    
+    /************************************************/
     public function add_areas(){
-        $this->load->model('Area');
-        if($this->session->has_userdata('is_logged_in')==0){redirect('admin/login');}
-        if ($this->input->post("save")){
-            $data["name"]=$this->input->post("area");
-            $data["from_id_fk"]=0;
-            insertrecords("areas",$data);
-            message("success","تم الحفظ بنجاح");
-        }
-        $data["content"]="bc/areas";
-        $this->load->view('index',$data);
+    $this->load->model('Area');
+    if($this->session->has_userdata('is_logged_in')==0){redirect('admin/login');}
+    if ($this->input->post("save")){
+        $data["name"]=$this->input->post("area");
+        $data["from_id_fk"]=0;
+        insertrecords("areas",$data);
+        message("success","تم الحفظ بنجاح");
     }
+    $data["content"]="bc/areas";
+    $this->load->view('index',$data);
+}
 
 
-    public function update_areas($id){
-        $this->load->model('Area');
-        if($this->session->has_userdata('is_logged_in')==0){redirect('admin/login');}
-        if ($this->input->post("update")){
-            $data["name"]=$this->input->post("area");
-            $this->Area->update($id);
-            redirect("admin/add_areas");
-            message("success","تم التعديل بنجاح");
-        }
-        $data['results']=  $this->Area->select();
-        $data["content"]="bc/areas";
-        $this->load->view('index',$data);
-    }
-
-    public function delete_areas($id){
-        deleterecorde('id',$id,'areas');
-        message("success","تمت عملية الحذف بنجاح");
+public function update_areas($id){
+    $this->load->model('Area');
+    if($this->session->has_userdata('is_logged_in')==0){redirect('admin/login');}
+    if ($this->input->post("update")){
+        $data["name"]=$this->input->post("area");
+        $this->Area->update($id);
         redirect("admin/add_areas");
-
-
+        message("success","تم التعديل بنجاح");
     }
+    $data['results']=  $this->Area->select();
+    $data["content"]="bc/areas";
+    $this->load->view('index',$data);
+}
+
+public function delete_areas($id){
+    deleterecorde('id',$id,'areas');
+    message("success","تمت عملية الحذف بنجاح");
+    redirect("admin/add_areas");
+
+
+}
 
 
 
-    public function add_office(){
-        $this->load->model('Area');
-        if($this->session->has_userdata('is_logged_in')==0){redirect('admin/login');}
-        if ($this->input->post("save")){
-            $data["from_id_fk"]=$this->input->post("area_id");
-            $data["name"]=$this->input->post("office");
-            insertrecords("areas",$data);
-            message("success","تم الحفظ بنجاح");
-        }
-        $data['records']=  $this->Area->select_all();
-        $data["content"]="bc/office";
-        $this->load->view('index',$data);
+public function add_office(){
+    $this->load->model('Area');
+    if($this->session->has_userdata('is_logged_in')==0){redirect('admin/login');}
+    if ($this->input->post("save")){
+        $data["from_id_fk"]=$this->input->post("area_id");
+        $data["name"]=$this->input->post("office");
+        insertrecords("areas",$data);
+        message("success","تم الحفظ بنجاح");
     }
+    $data['records']=  $this->Area->select_all();
+    $data["content"]="bc/office";
+    $this->load->view('index',$data);
+}
 
 
 
 
-    public function update_office($id){
-        $this->load->model('Area');
-        if($this->session->has_userdata('is_logged_in')==0){redirect('admin/login');}
-        if ($this->input->post("update")){
-            $this->Area->update_office($id);
-            redirect("admin/add_office");
-            message("success","تم التعديل بنجاح");
-        }
-        $data['results']=  $this->Area->getById($id);
-        $data['areas']=  $this->Area->select_all();
-        $data["content"]="bc/office";
-        $this->load->view('index',$data);
-    }
-
-    public function delete_office($id){
-        deleterecorde('id',$id,'areas');
-        message("success","تمت عملية الحذف بنجاح");
+public function update_office($id){
+    $this->load->model('Area');
+    if($this->session->has_userdata('is_logged_in')==0){redirect('admin/login');}
+    if ($this->input->post("update")){
+        $this->Area->update_office($id);
         redirect("admin/add_office");
+        message("success","تم التعديل بنجاح");
+    }
+    $data['results']=  $this->Area->getById($id);
+    $data['areas']=  $this->Area->select_all();
+    $data["content"]="bc/office";
+    $this->load->view('index',$data);
+}
 
+public function delete_office($id){
+    deleterecorde('id',$id,'areas');
+    message("success","تمت عملية الحذف بنجاح");
+    redirect("admin/add_office");
+
+
+}
+    
+/**************/   
+   public function all_schools_report()
+{
+    $this->load->model('Difined_model');
+    if($this->input->post("area")){
+        $data['areas'] = $this->Difined_model->select_search_key('areas','from_id_fk',$this->input->post("area"));
+        $this->load->view("bc/reports/get_office_data",$data);
+    }elseif($this->input->post("office")){
+        $data['schools'] = $this->Difined_model->select_search_key('schools','learning_office',$this->input->post("office"));
+        $this->load->view("bc/reports/get_school_data",$data);
+    }elseif( $this->input->post("school_id")){
+        $data['records'] = $this->Difined_model->select_search_key('students','school_id_fk',$this->input->post("school_id"));
+        $data['school_name'] = $this->Difined_model->select_search_key('schools','school_id_pk',$this->input->post("school_id"));
+        $data['office'] = $this->Difined_model->select_search_key('areas','id',$this->input->post("office_id"));
+        $data['area'] = $this->Difined_model->select_search_key('areas','id',$this->input->post("area_id"));
+        $this->load->view("bc/reports/get_data",$data);
+    }else{
+
+        $data["content"]="bc/reports/all_schools_report";
+        $this->load->view('index', $data);
+    }
+}
+/***************/
+
+public function ReportAnswersCount(){
+
+    $data["content"]="bc/reports/report_answers_count";
+    $this->load->view('index',$data);
+
+}
+
+/************  dina **************/
+
+  public function update_school($id,$id_users){
+        if($this->session->has_userdata('is_logged_in')==0){redirect('admin/login');}
+        if($this->input->post("store_id")){
+          $this->load->model("Mainmodel"); 
+          $data['loaded'] =$this->Mainmodel->get_maktab($this->input->post("store_id"));
+           $this->load->view('fe/load',$data);
+        }else{
+             if ($this->input->post("update")){
+          $this->load->model("Mainmodel"); 
+           $this->Mainmodel->update($this->input->post("school_id_pk"));
+                 //  $data["year"]=$this->input->post("year");
+                //    $data["area_id_fk"]=$this->input->post("area_id_fk");
+               //   $data["governorate"]=$this->input->post("governorate");
+              //   $data["learning_office"]=$this->input->post("learning_office");
+             //   $data["school_type"]=$this->input->post("school_type");
+            //   $data["school_name"]=$this->input->post("school_name");
+           //   $data["ministry_numper"]=$this->input->post("ministry_numper");
+          //  $data["school_email"]=$this->input->post("school_email");
+         //  $data["manager_name"]=$this->input->post("manager_name");
+        //   $data["manager_phone"]=$this->input->post("manager_phone");
+       //    $data["first_stage"]=$this->input->post("first_stage");
+      //  $data["secound_stage"]=$this->input->post("secound_stage");
+     //    $data["thired_stage"]=$this->input->post("thired_stage");
+    //print_r($this->input->post("school_id_pk"));
+   //die;
+  //  updaterecord($data,"schools","school_id_fk",$this->input->post("school_id_pk"));
+
+            redirect("admin/allschool");
+
+            message("success","تم التعديل بنجاح"); 
+        }
+      
+        }
+
+        $data['result']=  $this->Mainmodel->update_school($id);
+        $data["content"]="bc/school_update";
+        $this->load->view('index',$data);
+    }   
+    
+    
+    
+      public function public_report(){
+        
+        // $data['donors'] = $this->Mainmodel->select_all();
+        $data['programs'] = $this->Mainmodel->select();
+        $data['table'] = $this->Mainmodel->select2();
+       
+        
+       $data["content"]="bc/public_report";
+        $this->load->view('index',$data);
+    }
+    
+    /********** 258-10-2017  **************/
+    
+ /* public function all_questions_report()
+{
+    $this->load->model('Difined_model');
+$data['questions'] = $this->Difined_model->select_all('questions','','');
+    if($_POST['question_id'] ){
+        
+        $this->load->view("bc/reports/get_questions_report_data");
+    }else{
+        $data["content"]="bc/reports/all_questions_report";
+        $this->load->view('index', $data);
+    }
+}*/
+
+
+public function all_questions_report()
+{
+    $this->load->model('Difined_model');
+    $data['questions'] = $this->Difined_model->select_all('questions','','');
+    if($_POST['question_id'] ){
+        $data['records'] = $this->Difined_model->select_search_key('students','school_id_fk',$this->input->post("school_id"));
+        $data['school_name'] = $this->Difined_model->select_search_key('schools','school_id_pk',$this->input->post("school_id"));
+        $data['office'] = $this->Difined_model->select_search_key('areas','id',$this->input->post("office_id"));
+        $data['area'] = $this->Difined_model->select_search_key('areas','id',$this->input->post("area_id"));
+        $this->load->view("bc/reports/get_questions_report_data",$data);
+    }else{
+        $data["content"]="bc/reports/all_questions_report";
+        $this->load->view('index', $data);
+    }
+}
+
+
+public function load(){
+    $this->load->model('Difined_model');
+    if($this->input->post("area")){
+        $data['areas'] = $this->Difined_model->select_search_key('areas','from_id_fk',$this->input->post("area"));
+        $this->load->view("bc/reports/get_office_data",$data);
+    }elseif($this->input->post("office")){
+        $data['schools'] = $this->Difined_model->select_search_key('schools','learning_office',$this->input->post("office"));
+        $this->load->view("bc/reports/get_school_data",$data);
+    }elseif( $this->input->post("school_id")){
+        $data['questions'] = $this->Difined_model->select_search_key('poll','school_id_fk',$this->input->post("school_id"));
+        $this->load->view("bc/reports/get_questions_data",$data);
 
     }
+}
 
+
+/*******************************/  
+  
+  public function fullreport(){
+
+    if( $_POST["school_id_fk"] == "all" && $_POST["stage_id_fk"] == "all" && $_POST["school_type"] == "all" && $_POST["question_id_fk"] == "all" && $_POST['answer_id_fk']== "all"){
+            $data["results"]=$this->Mainmodel->schoolreports2();
+            $data['school_id']='all';
+            $this->load->view("bc/request/fullreport",$data);
+       }else{
+          $data["results"]=$this->Mainmodel->schoolreports();
+          $data['school_id']=$_POST["school_id_fk"];
+           $this->load->view("bc/request/fullreport",$data); 
+          }
+
+}
+
+public function schoolstatics(){
+    if($this->input->post("school_id")){
+   //  $data['loaded'] =$this->Mainmodel->get_school_level($level_id);
+     $this->load->view('bc/load');
+    }elseif($this->input->post("level_id")){
+         $data['loaded'] =$this->Mainmodel->get_school_level($this->input->post("level_id"));
+     $this->load->view('bc/load',$data);
+    }else{
+            $data["content"]="bc/schoolstatics";
+    $this->load->view('index',$data);
+    }
+
+
+}
+    
+  /*****************28-10-2017 ahmed **********************************/
+  
+  
+  public function all_questions_report_byschool()
+{
+    $this->load->model('Difined_model');
+    if($_POST['school_id'] ){
+        $data['school_name'] = $this->Difined_model->select_search_key('schools','school_id_pk',$this->input->post("school_id"));
+        $data['office'] = $this->Difined_model->select_search_key('areas','id',$this->input->post("office_id"));
+        $data['area'] = $this->Difined_model->select_search_key('areas','id',$this->input->post("area_id"));
+        $this->load->view("bc/reports/get_questions_report_data_byschool",$data);
+    }else{
+        $data["content"]="bc/reports/all_questions_report_byschool";
+        $this->load->view('index', $data);
+    }
+}
+
+
+
+public function all_answers_report()
+{
+    $this->load->model('Difined_model');
+    if($_POST['school_id'] ){
+        $data['school_name'] = $this->Difined_model->select_search_key('schools','school_id_pk',$this->input->post("school_id"));
+        $data['office'] = $this->Difined_model->select_search_key('areas','id',$this->input->post("office_id"));
+        $data['area'] = $this->Difined_model->select_search_key('areas','id',$this->input->post("area_id"));
+        if($_POST['school_id'] =='all'){
+            $this->load->view("bc/reports/get_all_answers_report_data_byall_schools",$data);
+        }else{
+            $this->load->view("bc/reports/get_all_answers_report_data",$data);
+        }
+
+    }else{
+        $data["content"]="bc/reports/all_answers_report";
+        $this->load->view('index', $data);
+    }
+}
+    /*****************28-10-2017 dina**********************************/
+
+
+    public function area_reports()
+    {
+        if ($this->input->post("area_id") || $this->input->post("id_offic")) {
+            $area_id = ($this->input->post("area_id"));
+            $id_offic = ($this->input->post("id_offic"));
+            $data['area_office'] = $this->Mainmodel->get_school($area_id, $id_offic);
+            //  print_r($data['area_office']);
+        echo'<pre>';
+            var_dump($this->input->post());
+            echo'</pre>';
+            $this->load->view('bc/load2', $data);
+        } else {
+            $data["content"] = "bc/area_reports";
+            $this->load->view('index', $data);
+        }
+    }
+        /////////////////////////
+
+        public function fullreport_area(){
+
+
+            if( $_POST["school_id"] == "all" ){
+                $data["results"]=$this->Mainmodel->schoolreports_area_2();
+                $data['school_id']='all';
+                $this->load->view("bc/fullreport_area2",$data);
+            }else{
+                $data["results"]=$this->Mainmodel->schoolreports_area();
+                $data['school_id']=$_POST["school_id"];
+                $this->load->view("bc/fullreport_area",$data);
+            }
+
+
+        }
+  
 
 }

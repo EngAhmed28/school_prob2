@@ -37,14 +37,49 @@
         <?php
         $x=0;
         ?>
-        <?php foreach (selectrecords("*","schools","","","","learning_area","learning_area.area_id_pk=schools.area_id_fk","")as $school):?>
+        <?php foreach (selectrecords("*","schools","","","","","","")as $school):?>
             <tr>
                 <td><?php echo  ++$x?></td>
                 <td><?php echo $school->school_name?></td>
                 <td><?php echo $school->ministry_numper?></td>
-                <td><?php echo $school->area_name?></td>
+ 
+                <td>
+                               
+                <?php
+$this->db->select('*');
+$this->db->from('areas');
+$this->db->where('id=',$school->area_id_fk);
+$query2 = $this->db->get();
+
+    foreach ($query2->result() as $row2) {
+    // print_r();
+echo $row2->name
+?>
+              <?php
+                    }
+
+                  ?>
+                
+                </td>
                 <td><?php echo $school->governorate?></td>
-                <td><?php echo $school->learning_office?></td>
+                <td>
+                
+                              <?php
+$this->db->select('*');
+$this->db->from('areas');
+$this->db->where('id=',$school->learning_office);
+$query3 = $this->db->get();
+
+    foreach ($query3->result() as $row3) {
+    // print_r();
+echo $row3->name
+?>
+              <?php
+                    }
+
+                  ?>
+                
+                </td>
                 <td><?php echo $school->manager_name?></td>
                 <td><?php echo $school->school_email?></td>
                 <td><?php echo $school->manager_phone?></td>
@@ -74,8 +109,7 @@ $this->db->where('school_id_fk=',$school->school_id_pk);
 $query = $this->db->get();
 
     foreach ($query->result() as $row) {
-    // print_r();
-?>
+         ?>
                   <a href="<?php echo base_url().'Admin/suspend_articles/'.$school->school_id_pk.'/'.$class.'/'.$row->user_id_pk?>" class="btn btn-sm btn-<?php echo $class ?> "><?php echo $title ?> </a>
               <?php
                     }

@@ -19,10 +19,10 @@
 
 
 <?php
-
+/*
 echo'<pre>';
 var_dump($results);
-echo'</pre>';
+echo'</pre>';*/
 //die;
 ?>
  <?php if(isset($results)):?>
@@ -62,7 +62,7 @@ echo'</pre>';
                  <div class="col-xs-12">
                      <div class="form-group  col-sm-6 col-xs-12">
                          <label class="label-style col-xs-6">إسم المنطقة</label>
-                         <input class="form-control col-xs-6" name="area"  placeholder="إسم المنطقة">
+                         <input class="form-control col-xs-6" name="area"  placeholder="إسم المنطقة" required="required"/>
                      </div>
                  </div>
 
@@ -88,9 +88,13 @@ echo'</pre>';
             </thead>
             <tbody>
 
-            <?php foreach (selectrecords("*","areas",'')as $quiz):?>
+            <?php 
+            $i=0;
+            $arr =array('from_id_fk'=>0);
+            foreach (selectrecords("*","areas",$arr)as $quiz):
+            $i++;?>
             <tr>
-                <td><?php echo $quiz->id?></td>
+                <td><?php echo $i?></td>
                 <td><?php echo $quiz->name?></td>
                 <td data-title="التحكم" class="text-center">
                     <a href="<?php echo base_url().'Admin/update_areas/'.$quiz->id.''?>" class="btn btn-sm btn-success">تعديل </a>

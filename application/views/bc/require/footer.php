@@ -1,7 +1,7 @@
 
-</section><!-- /.content -->
+</section>
 
-</div><!-- /.content-wrapper -->
+</div>
 
 <footer class="main-footer">
     <div class="pull-left hidden-xs">
@@ -10,16 +10,10 @@
     <strong>Copyright &copy; <?echo date("Y")?> <a href="http://alatheertech.com.com">شركة الاثير تك</a>.</strong> All rights reserved.
 </footer>
 
-<!-- Control Sidebar -->
-<!--
-
-<!-- Add the sidebar's background. This div must be placed
-     immediately after the control sidebar -->
 <div class="control-sidebar-bg"></div>
-</div><!-- ./wrapper -->
+</div>
 
-<!-- jQuery 2.1.4 -->
-<!-- jQuery UI 1.11.4 -->
+
 <script src="<?php echo base_url("public/bc/")?>/plugins/select2/select2.full.min.js"></script>
 
 <script src="<?php echo base_url("public/bc/")?>/plugins/datatables/jquery.dataTables.min.js"></script>
