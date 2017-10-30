@@ -1,4 +1,5 @@
 <?php
+echo '<option value="">إختر</option>';
 if(isset($area_office)){
     echo '<option value="all">الكل</option>';
     if(isset($area_office))

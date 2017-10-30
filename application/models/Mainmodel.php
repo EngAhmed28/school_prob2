@@ -390,13 +390,12 @@ public function get_maktab($id){
         $this->db->from('poll');
         $this->db->join("questions","questions.questation_id_pk=poll.question_id_fk");
         $this->db->join("schools","schools.school_id_pk=poll.school_id_fk");
-
-        if ($this->input->post("question_id_fk")!="all"){
+        if ($this->input->post("question_id_fk")!= "all"){
             $this->db->where("poll.question_id_fk",$this->input->post("question_id_fk"));
         }
         ////////////////////////////////////////
 
-        if($this->input->post("school_id")!='all'){
+        if($this->input->post("school_id")!='all_schools'){
             $this->db->where("poll.school_id_fk",$this->input->post("school_id"));
         }
         ///////////////////////////////
@@ -431,7 +430,6 @@ public function get_maktab($id){
         $this->db->from('poll');
         $this->db->join("questions","questions.questation_id_pk=poll.question_id_fk");
         $this->db->join("schools","schools.school_id_pk=poll.school_id_fk");
-
         if ($this->input->post("question_id_fk")!="all"){
             $this->db->where("poll.question_id_fk",$this->input->post("question_id_fk"));
         }

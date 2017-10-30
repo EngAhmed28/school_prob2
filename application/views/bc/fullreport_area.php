@@ -1,19 +1,10 @@
 
 <?php
-
 $ci=&get_instance();
-
 $ci->load->model('Mainmodel');
 
-
-   if($school_id == "all"){
-    
-   
-    ?>
-    
-      
-
-                <div class="box-body">
+if($_POST['school_id'] == "all"){?>
+<div class="box-body">
                 
 <?php
 $this->db->select('*');
@@ -70,18 +61,415 @@ $query4 = $this->db->get();
 
     
     </div>
-   
-   <?php }else{
-    
-    
-            $school_id=$school_id;
-        
-    ?>
-   
-   
-         
+<!------------------------------------ahmed-->
 
-                <div class="box-body">
+       <table id="sample_1" class="table table-bordered table-hover table-striped" cellspacing="0"  width="99%" style="margin-right: 6px; direction:rtl;">
+           <thead>
+           <tr>
+               <th><i class="fa fa-list" aria-hidden="true"></i></th>
+               <th>السؤال</th>
+               <th  >الاجابة</th>
+               <th  >  عدد الإجابات  </th>
+           </tr>
+           </thead>
+          <?php if($_POST['question_id_fk'] <= 11){?>
+
+           <!--------------------------------------  1  ------------------------------------------------------------->
+           <?php foreach (selectrecords("*","questions",array("questation_id_pk"=>$_POST['question_id_fk']),'','','answers',"questions.questation_id_pk=answers.questation_id_fk") as $value):?>
+               <tr>
+               <?php $data=unserialize($value->answer_title); ?>
+               <td rowspan="<?php echo sizeof($data)?>"><?php echo $value->questation_id_pk?></td>
+               <td rowspan="<?php echo sizeof($data)?>"><?php echo $value->questation_title?> </td>
+               <?php  $i=1; foreach ($data as $answer):?>
+
+                   <td> <?php echo $answer;
+                       ?></td>
+                   <td><?php
+                       $this->db->select('question_id_fk,answer_id_fk');
+                       $this->db->where(array('question_id_fk' => $value->questation_id_pk,"answer_id_fk"=>$i));
+                       $this->db->from('poll');
+                       $query = $this->db->get();
+                       echo $query->num_rows();
+                       ?></td>
+                   </tr>
+                   <?php $i++; endforeach;?>
+           <?php endforeach; }elseif($_POST['question_id_fk'] > 11 && $_POST['question_id_fk'] <103){?>
+
+           <!-------------------------------------- 1 ------------------------------------------------------------>
+           <!-------------------------------------- 2 ------------------------------------------------------------>
+           <?php foreach (selectrecords("questions.questation_id_pk,questions.questation_title","questions",array("questation_id_pk"=>$_POST['question_id_fk']),'','','',"") as $value):?>
+               <tr>
+
+                   <td rowspan="4"><?php echo $value->questation_id_pk?></td>
+                   <td rowspan="4"><?php echo $value->questation_title?> </td>
+                   <td>قوي</td>  <td><?php
+                       $this->db->select('question_id_fk,answer_id_fk');
+                       $this->db->where(array('question_id_fk' => $value->questation_id_pk,"answer_id_fk"=>1));
+                       $this->db->from('poll');
+                       $query = $this->db->get();
+                       echo $query->num_rows();                ?>
+                   </td> </tr>
+               <td>متوسط</td> <td><?php $this->db->select('question_id_fk,answer_id_fk');
+                   $this->db->where(array('question_id_fk' => $value->questation_id_pk,"answer_id_fk"=>2));
+                   $this->db->from('poll');
+                   $query = $this->db->get();
+                   echo $query->num_rows();    ?>
+               </td>  </tr>
+               <td>ضعيف</td>  <td><?php $this->db->select('question_id_fk,answer_id_fk');
+                   $this->db->where(array('question_id_fk' => $value->questation_id_pk,"answer_id_fk"=>3));
+                   $this->db->from('poll');
+                   $query = $this->db->get();
+                   echo $query->num_rows();
+                   ?></td> </tr>
+               <td>لايوجد</td> <td><?php $this->db->select('question_id_fk,answer_id_fk');
+                   $this->db->where(array('question_id_fk' => $value->questation_id_pk,"answer_id_fk"=>4));
+                   $this->db->from('poll');
+                   $query = $this->db->get();
+                   echo $query->num_rows();
+                   ?></td> </tr>
+
+           <?php endforeach; }elseif($_POST['question_id_fk'] ==111){?>
+           <!-------------------------------------- 2 ------------------------------------------------------------>
+           <!-------------------------------------- 3 ------------------------------------------------------------>
+           <?php $q=getrecordbyid(array("questation_id_pk"=>111),"questions"); ?>
+           <td rowspan="5"> <?php echo $q["questation_id_pk"]?> </td>
+           <td rowspan="5"> <?php echo $q["questation_title"]?> </td>
+           <td  >نفسية</td>  <td><?php
+               $this->db->select('question_id_fk,answer_id_fk');
+               $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>1));
+               $this->db->from('poll');
+               $query = $this->db->get();
+               echo $query->num_rows();
+               ?></td>  </tr>
+           <td  >إجتماعية</td> <td>
+               <?php
+               $this->db->select('question_id_fk,answer_id_fk');
+               $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>2));
+               $this->db->from('poll');
+               $query = $this->db->get();
+               echo $query->num_rows();
+               ?>
+           </td>     </tr>
+           <td  >إقتصادية</td> <td>
+               <?php
+               $this->db->select('question_id_fk,answer_id_fk');
+               $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>3));
+               $this->db->from('poll');
+               $query = $this->db->get();
+               echo $query->num_rows();
+               ?>
+           </td>   </tr>
+           <td >صحية</td>  <td>
+               <?php
+               $this->db->select('question_id_fk,answer_id_fk');
+               $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>4));
+               $this->db->from('poll');
+               $query = $this->db->get();
+               echo $query->num_rows();
+               ?>
+           </td>  </tr>
+           <td  >سلوكية</td> <td>
+               <?php
+               $this->db->select('question_id_fk,answer_id_fk');
+               $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>5));
+               $this->db->from('poll');
+               $query = $this->db->get();
+               echo $query->num_rows();
+               ?>
+           </td>    </tr>
+              <?php }elseif($_POST['question_id_fk'] ==112){?>
+           <!----------------------------------------------------->
+           <?php $q=getrecordbyid(array("questation_id_pk"=>112),"questions"); ?>
+           <td rowspan="4"> <?php echo $q["questation_id_pk"]?> </td>
+           <td rowspan="4"> <?php echo $q["questation_title"]?> </td>
+           <td >المرشد</td>  <td>
+               <?php
+               $this->db->select('question_id_fk,answer_id_fk');
+               $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>1));
+               $this->db->from('poll');
+               $query = $this->db->get();
+               echo $query->num_rows();
+               ?>
+           </td>   </tr>
+           <td >الوكيل</td> <td>
+               <?php
+               $this->db->select('question_id_fk,answer_id_fk');
+               $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>2));
+               $this->db->from('poll');
+               $query = $this->db->get();
+               echo $query->num_rows();
+               ?>
+           </td>  </tr>
+           <td >الوحدة</td>  <td>
+               <?php
+               $this->db->select('question_id_fk,answer_id_fk');
+               $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>3));
+               $this->db->from('poll');
+               $query = $this->db->get();
+               echo $query->num_rows();
+               ?>
+           </td>  </tr>
+           <td >اخرى</td>  <td>
+               <?php
+               $this->db->select('question_id_fk,answer_id_fk');
+               $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>4));
+               $this->db->from('poll');
+               $query = $this->db->get();
+               echo $query->num_rows();
+               ?>
+           </td>   </tr>
+              <?php }elseif($_POST['question_id_fk']=113){?>
+           <!----------------------------------------------------->
+
+           <?php $q=getrecordbyid(array("questation_id_pk"=>113),"questions"); ?>
+           <td rowspan="4"> <?php echo $q["questation_id_pk"]?> </td>
+           <td rowspan="4"> <?php echo $q["questation_title"]?> </td>
+           <td  >قوى</td> <td>
+               <?php
+               $this->db->select('question_id_fk,answer_id_fk');
+               $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>1));
+               $this->db->from('poll');
+               $query = $this->db->get();
+               echo $query->num_rows();
+               ?>
+           </td>   </tr>
+           <td  >متوسط</td> <td>
+               <?php
+               $this->db->select('question_id_fk,answer_id_fk');
+               $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>2));
+               $this->db->from('poll');
+               $query = $this->db->get();
+               echo $query->num_rows();
+               ?>
+           </td>    </tr>
+           <td  >ضعيف</td>    <td>
+               <?php
+               $this->db->select('question_id_fk,answer_id_fk');
+               $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>3));
+               $this->db->from('poll');
+               $query = $this->db->get();
+               echo $query->num_rows();
+               ?>
+           </td>   </tr>
+           <td >لاتعتبر على الاطلاق</td>   <td>
+               <?php
+               $this->db->select('question_id_fk,answer_id_fk');
+               $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>4));
+               $this->db->from('poll');
+               $query = $this->db->get();
+               echo $query->num_rows();
+               ?>
+           </td>     </tr>
+   <?php }
+          if($_POST['question_id_fk']=='all'){?>
+           <!--------------------------------------all ------------------------------------------------------------>
+
+              <!--------------------------------------  1  ------------------------------------------------------------->
+              <?php foreach (selectrecords("*","questions",array("questation_id_pk<="=>"11"),'','','answers',"questions.questation_id_pk=answers.questation_id_fk") as $value):?>
+                  <tr>
+                  <?php $data=unserialize($value->answer_title); ?>
+                  <td rowspan="<?php echo sizeof($data)?>"><?php echo $value->questation_id_pk?></td>
+                  <td rowspan="<?php echo sizeof($data)?>"><?php echo $value->questation_title?> </td>
+                  <?php  $i=1; foreach ($data as $answer):?>
+
+                      <td> <?php echo $answer;
+                          ?></td>
+                      <td><?php
+                          $this->db->select('question_id_fk,answer_id_fk');
+                          $this->db->where(array('question_id_fk' => $value->questation_id_pk,"answer_id_fk"=>$i));
+                          $this->db->from('poll');
+                          $query = $this->db->get();
+                          echo $query->num_rows();
+                          ?></td>
+                      </tr>
+                      <?php $i++; endforeach;?>
+              <?php endforeach;?>
+
+              <!-------------------------------------- 1 ------------------------------------------------------------>
+              <!-------------------------------------- 2 ------------------------------------------------------------>
+              <?php foreach (selectrecords("questions.questation_id_pk,questions.questation_title","questions",array("questation_id_pk>"=>"11","questation_id_pk<"=>"103"),'','','',"") as $value):?>
+                  <tr>
+
+                      <td rowspan="4"><?php echo $value->questation_id_pk?></td>
+                      <td rowspan="4"><?php echo $value->questation_title?> </td>
+                      <td>قوي</td>  <td><?php
+                          $this->db->select('question_id_fk,answer_id_fk');
+                          $this->db->where(array('question_id_fk' => $value->questation_id_pk,"answer_id_fk"=>1));
+                          $this->db->from('poll');
+                          $query = $this->db->get();
+                          echo $query->num_rows();                ?>
+                      </td> </tr>
+                  <td>متوسط</td> <td><?php $this->db->select('question_id_fk,answer_id_fk');
+                      $this->db->where(array('question_id_fk' => $value->questation_id_pk,"answer_id_fk"=>2));
+                      $this->db->from('poll');
+                      $query = $this->db->get();
+                      echo $query->num_rows();    ?>
+                  </td>  </tr>
+                  <td>ضعيف</td>  <td><?php $this->db->select('question_id_fk,answer_id_fk');
+                      $this->db->where(array('question_id_fk' => $value->questation_id_pk,"answer_id_fk"=>3));
+                      $this->db->from('poll');
+                      $query = $this->db->get();
+                      echo $query->num_rows();
+                      ?></td> </tr>
+                  <td>لايوجد</td> <td><?php $this->db->select('question_id_fk,answer_id_fk');
+                      $this->db->where(array('question_id_fk' => $value->questation_id_pk,"answer_id_fk"=>4));
+                      $this->db->from('poll');
+                      $query = $this->db->get();
+                      echo $query->num_rows();
+                      ?></td> </tr>
+
+              <?php endforeach;?>
+              <!-------------------------------------- 2 ------------------------------------------------------------>
+              <!-------------------------------------- 3 ------------------------------------------------------------>
+              <?php $q=getrecordbyid(array("questation_id_pk"=>111),"questions"); ?>
+              <td rowspan="5"> <?php echo $q["questation_id_pk"]?> </td>
+              <td rowspan="5"> <?php echo $q["questation_title"]?> </td>
+              <td  >نفسية</td>  <td><?php
+                  $this->db->select('question_id_fk,answer_id_fk');
+                  $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>1));
+                  $this->db->from('poll');
+                  $query = $this->db->get();
+                  echo $query->num_rows();
+                  ?></td>  </tr>
+              <td  >إجتماعية</td> <td>
+                  <?php
+                  $this->db->select('question_id_fk,answer_id_fk');
+                  $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>2));
+                  $this->db->from('poll');
+                  $query = $this->db->get();
+                  echo $query->num_rows();
+                  ?>
+              </td>     </tr>
+              <td  >إقتصادية</td> <td>
+                  <?php
+                  $this->db->select('question_id_fk,answer_id_fk');
+                  $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>3));
+                  $this->db->from('poll');
+                  $query = $this->db->get();
+                  echo $query->num_rows();
+                  ?>
+              </td>   </tr>
+              <td >صحية</td>  <td>
+                  <?php
+                  $this->db->select('question_id_fk,answer_id_fk');
+                  $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>4));
+                  $this->db->from('poll');
+                  $query = $this->db->get();
+                  echo $query->num_rows();
+                  ?>
+              </td>  </tr>
+              <td  >سلوكية</td> <td>
+                  <?php
+                  $this->db->select('question_id_fk,answer_id_fk');
+                  $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>5));
+                  $this->db->from('poll');
+                  $query = $this->db->get();
+                  echo $query->num_rows();
+                  ?>
+              </td>    </tr>
+              <!----------------------------------------------------->
+              <?php $q=getrecordbyid(array("questation_id_pk"=>112),"questions"); ?>
+              <td rowspan="4"> <?php echo $q["questation_id_pk"]?> </td>
+              <td rowspan="4"> <?php echo $q["questation_title"]?> </td>
+              <td >المرشد</td>  <td>
+                  <?php
+                  $this->db->select('question_id_fk,answer_id_fk');
+                  $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>1));
+                  $this->db->from('poll');
+                  $query = $this->db->get();
+                  echo $query->num_rows();
+                  ?>
+              </td>   </tr>
+              <td >الوكيل</td> <td>
+                  <?php
+                  $this->db->select('question_id_fk,answer_id_fk');
+                  $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>2));
+                  $this->db->from('poll');
+                  $query = $this->db->get();
+                  echo $query->num_rows();
+                  ?>
+              </td>  </tr>
+              <td >الوحدة</td>  <td>
+                  <?php
+                  $this->db->select('question_id_fk,answer_id_fk');
+                  $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>3));
+                  $this->db->from('poll');
+                  $query = $this->db->get();
+                  echo $query->num_rows();
+                  ?>
+              </td>  </tr>
+              <td >اخرى</td>  <td>
+                  <?php
+                  $this->db->select('question_id_fk,answer_id_fk');
+                  $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>4));
+                  $this->db->from('poll');
+                  $query = $this->db->get();
+                  echo $query->num_rows();
+                  ?>
+              </td>   </tr>
+              <!----------------------------------------------------->
+
+              <?php $q=getrecordbyid(array("questation_id_pk"=>113),"questions"); ?>
+              <td rowspan="4"> <?php echo $q["questation_id_pk"]?> </td>
+              <td rowspan="4"> <?php echo $q["questation_title"]?> </td>
+              <td  >قوى</td> <td>
+                  <?php
+                  $this->db->select('question_id_fk,answer_id_fk');
+                  $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>1));
+                  $this->db->from('poll');
+                  $query = $this->db->get();
+                  echo $query->num_rows();
+                  ?>
+              </td>   </tr>
+              <td  >متوسط</td> <td>
+                  <?php
+                  $this->db->select('question_id_fk,answer_id_fk');
+                  $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>2));
+                  $this->db->from('poll');
+                  $query = $this->db->get();
+                  echo $query->num_rows();
+                  ?>
+              </td>    </tr>
+              <td  >ضعيف</td>    <td>
+                  <?php
+                  $this->db->select('question_id_fk,answer_id_fk');
+                  $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>3));
+                  $this->db->from('poll');
+                  $query = $this->db->get();
+                  echo $query->num_rows();
+                  ?>
+              </td>   </tr>
+              <td >لاتعتبر على الاطلاق</td>   <td>
+                  <?php
+                  $this->db->select('question_id_fk,answer_id_fk');
+                  $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>4));
+                  $this->db->from('poll');
+                  $query = $this->db->get();
+                  echo $query->num_rows();
+                  ?>
+              </td>     </tr>
+
+
+
+
+              <!--------------------------------------all ------------------------------------------------------------>
+           <?php }?>
+
+
+           </tbody>
+       </table>
+<?php /*}else{}*/?>
+
+       <!------------------------------------ahmed-->
+
+
+   
+   <?php }elseif($_POST['school_id'] != "all"){
+
+    ?>
+
+
+ <div class="box-body">
                 
 <?php
 $this->db->select('*');
@@ -104,7 +492,7 @@ $this->db->where('school_id_pk',$school_id);
 $query3 = $this->db->get();
  if ($query3->num_rows() > 0) {
             foreach ($query3->result() as $row) {
-                //$data[] = $row;?>
+         ?>
               
       <div class="col-xs-12">
     <div class="form-group col-md-6 col-sm-6 col-xs-12">
@@ -176,472 +564,273 @@ $query6= $this->db->get();
     
  <?php 
  }
-  }?>
-    
- <?php if(!empty($results)){
-?>
-<!--<table class="table table-striped">
-    <tr>
-        <th style="width: 10px">م</th>
-        <th>المشكلة</th>
-        <th width="30%">التقدم</th>
-        <th style="width: 15%">النسبة المئوية</th>
-    </tr> -->
 
-  
-      <?php
-    for($x=1 ; $x<= 11 ;$x++){
-        $arr[]=$x;  
-    }
-      for($y=12 ; $y<= 102 ;$y++){
-        $arr2[]=$y;  
-    }
-    
-       for($z=103 ; $z<= 113 ;$z++){
-        $arr3[]=$z;  
-    }
-    ?>
-  <table id="sample_1" class="table table-bordered table-hover table-striped" cellspacing="0"  width="99%" style="margin-right: 6px; direction:rtl;">
-    <thead>
-    <tr>
-        <th><i class="fa fa-list" aria-hidden="true"></i></th>
-        <th>السؤال</th>
-        <th  >الاجابة</th>
-        <th  >  عدد الإجابات  </th>
-    </tr>
-    </thead>
-    <tbody>
-  
-    <?php 
-   
-    
-    foreach ($results as $result){
-    
-    if(in_array($result->questation_id_pk,$arr)){ ?>
-         <!--------------------------------------  1  ------------------------------------------------------------->
-    <?php
-    if($result->questation_id_pk){
-        $arra = array("questation_id_pk="=>$result->questation_id_pk);
-        
-    }else{
-        $arra = array("questation_id_pk<="=>"11");
-    }
-     foreach (selectrecords("*","questions",$arra,'','','answers',"questions.questation_id_pk=answers.questation_id_fk") as $value):?>
-       
+/***************************************ahmed*********************************/?>
 
-       
-       
-        <tr>
-        <?php $data=unserialize($value->answer_title); ?>
-        <td rowspan="<?php echo sizeof($data)?>"><?php //echo $value->questation_id_pk?></td>
-        <td rowspan="<?php echo sizeof($data)?>"><?php echo $value->questation_title?> </td>
-        <?php  $i=1; foreach ($data as $answer):
-    
-        ?>
+        <!---------------------------------------------------------------------->
 
-            <td> <?php echo $answer;
-                ?></td>
-            <td><?php
-                $this->db->select('question_id_fk,answer_id_fk');
-                $this->db->where(array('question_id_fk' => $value->questation_id_pk,"answer_id_fk"=>$i));
-                     if($school_id == "all"){
-                         }else{
-        
-            $school_id_fk=explode('/',$school_id);
-            $school_id_fk=$school_id_fk[0];
-            $this->db->where(array('school_id_fk' => $school_id_fk));
-                }
-                $this->db->from('poll');
-                $query = $this->db->get();
-                echo $query->num_rows();
-                ?></td>
+        <table id="sample_1" class="table table-bordered table-hover table-striped" cellspacing="0"  width="99%" style="margin-right: 6px; direction:rtl;">
+            <thead>
+            <tr>
+                <th><i class="fa fa-list" aria-hidden="true"></i></th>
+                <th>2السؤال</th>
+                <th  >الاجابة</th>
+                <th  >  عدد الإجابات  </th>
             </tr>
-        <?php $i++; endforeach;?>
-    <?php endforeach;?>
+            </thead>
+            <?php
 
-    <!-------------------------------------- 1 ------------------------------------------------------------>
-   <?php }elseif(in_array($result->questation_id_pk,$arr2)){ ?>
-    <!-------------------------------------- 2 ------------------------------------------------------------>
-    <?php 
-    
-        if($result->questation_id_pk){
-        $arra2 = array("questation_id_pk="=>$result->questation_id_pk);
-    }else{
-        $arra2 = array("questation_id_pk>"=>"11","questation_id_pk<"=>"103");
-    }
-    
-    foreach (selectrecords("questions.questation_id_pk,questions.questation_title","questions",$arra2,'','','',"") as $value):?>
-        <tr>
 
-        <td rowspan="4"><?php echo $value->questation_id_pk?></td>
-        <td rowspan="4"><?php echo $value->questation_title?> </td>
-            <td>قوي</td>  <td><?php
+            for($x=1 ; $x<= 11 ;$x++){
+                $arr[]=$x;
+            }
+
+            var_dump($_POST);
+       ?>
+
+
+            <!--------------------------------------  1  ------------------------------------------------------------->
+            <?php $total =array();foreach (selectrecords("*","questions",array("questation_id_pk<="=>$_POST['question_id_fk']),'','','answers',"questions.questation_id_pk=answers.questation_id_fk") as $value):?>
+                <tr>
+                <?php $data=unserialize($value->answer_title); ?>
+                <td rowspan="<?php echo sizeof($data)?>"><?php echo $value->questation_id_pk?></td>
+                <td rowspan="<?php echo sizeof($data)?>"><?php echo $value->questation_title?> </td>
+                <?php $all=0;  $i=1; foreach ($data as $answer):?>
+
+                    <td> <?php echo $answer;
+                        ?></td>
+                    <td><?php
+                        $this->db->select('question_id_fk,answer_id_fk');
+                        $this->db->where(array('question_id_fk' => $value->questation_id_pk,"answer_id_fk"=>$i,'school_id_fk'=>$_POST['school_id']));
+                        $this->db->group_by('student_id_fk');
+                        $this->db->from('poll');
+                        $query = $this->db->get();
+                        echo $query->num_rows();
+                        ?></td>
+                    </tr>
+                    <?php  $all +=$query->num_rows(); $i++; endforeach;
+                $total[]=$all;
+                ?>
+            <?php endforeach;?>
+
+            <!-------------------------------------- 1 ------------------------------------------------------------>
+            <!-------------------------------------- 2 ------------------------------------------------------------>
+
+            <?php $all2 =0; foreach (selectrecords("questions.questation_id_pk,questions.questation_title","questions",array("questation_id_pk>"=>"11","questation_id_pk<"=>"103"),'','','',"") as $value):?>
+                <tr>
+
+                    <td rowspan="4"><?php echo $value->questation_id_pk?></td>
+                    <td rowspan="4"><?php echo $value->questation_title?> </td>
+                    <td>قوي</td>  <td><?php
+                        $this->db->select('question_id_fk,answer_id_fk');
+                        $this->db->where(array('question_id_fk' => $value->questation_id_pk,"answer_id_fk"=>1,'school_id_fk'=>$_POST['school_id']));
+                        $this->db->group_by('student_id_fk');
+                        $this->db->from('poll');
+                        $query1 = $this->db->get();
+                        echo $query1->num_rows();                ?>
+                    </td> </tr>
+                <td>متوسط</td> <td><?php $this->db->select('question_id_fk,answer_id_fk');
+                    $this->db->where(array('question_id_fk' => $value->questation_id_pk,"answer_id_fk"=>2,'school_id_fk'=>$_POST['school_id']));
+                    $this->db->group_by('student_id_fk');
+                    $this->db->from('poll');
+                    $query2 = $this->db->get();
+                    echo $query2->num_rows();    ?>
+                </td>  </tr>
+                <td>ضعيف</td>  <td><?php $this->db->select('question_id_fk,answer_id_fk');
+                    $this->db->where(array('question_id_fk' => $value->questation_id_pk,"answer_id_fk"=>3,'school_id_fk'=>$_POST['school_id']));
+                    $this->db->group_by('student_id_fk');
+                    $this->db->from('poll');
+                    $query3 = $this->db->get();
+                    echo $query3->num_rows();
+                    ?></td> </tr>
+                <td>لايوجد</td> <td><?php $this->db->select('question_id_fk,answer_id_fk');
+                    $this->db->where(array('question_id_fk' => $value->questation_id_pk,"answer_id_fk"=>4,'school_id_fk'=>$_POST['school_id']));
+                    $this->db->group_by('student_id_fk');
+                    $this->db->from('poll');
+                    $query4 = $this->db->get();
+                    echo $query4->num_rows();
+                    $all2 = $query1->num_rows() + $query2->num_rows() + $query3->num_rows()+$query4->num_rows();
+                    $total[]=$all2;
+                    ?></td> </tr>
+
+            <?php endforeach;?>
+            <!-------------------------------------- 2 ------------------------------------------------------------>
+            <!-------------------------------------- 3 ------------------------------------------------------------>
+            <?php $all3=0; $q=getrecordbyid(array("questation_id_pk"=>111),"questions"); ?>
+            <td rowspan="5"> <?php echo $q["questation_id_pk"]?> </td>
+            <td rowspan="5"> <?php echo $q["questation_title"]?> </td>
+            <td  >نفسية</td>  <td><?php
                 $this->db->select('question_id_fk,answer_id_fk');
-                $this->db->where(array('question_id_fk' => $value->questation_id_pk,"answer_id_fk"=>1));
-                                     if($school_id == "all"){
-                         }else{
-        
-            $school_id_fk=explode('/',$school_id);
-            $school_id_fk=$school_id_fk[0];
-            $this->db->where(array('school_id_fk' => $school_id_fk));
-                }
+                $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>1,'school_id_fk'=>$_POST['school_id']));
+                $this->db->group_by('student_id_fk');
                 $this->db->from('poll');
-                $query = $this->db->get();
-                echo $query->num_rows();                ?>
-            </td> </tr>
-            <td>متوسط</td> <td><?php $this->db->select('question_id_fk,answer_id_fk');
-            $this->db->where(array('question_id_fk' => $value->questation_id_pk,"answer_id_fk"=>2));
-                                 if($school_id == "all"){
-                         }else{
-        
-            $school_id_fk=explode('/',$school_id);
-            $school_id_fk=$school_id_fk[0];
-            $this->db->where(array('school_id_fk' => $school_id_fk));
-                }
-            $this->db->from('poll');
-            $query = $this->db->get();
-            echo $query->num_rows();    ?>
-        </td>  </tr>
-            <td>ضعيف</td>  <td><?php $this->db->select('question_id_fk,answer_id_fk');
-            $this->db->where(array('question_id_fk' => $value->questation_id_pk,"answer_id_fk"=>3));
-                                 if($school_id == "all"){
-                         }else{
-        
-            $school_id_fk=explode('/',$school_id);
-            $school_id_fk=$school_id_fk[0];
-            $this->db->where(array('school_id_fk' => $school_id_fk));
-                }
-            $this->db->from('poll');
-            $query = $this->db->get();
-            echo $query->num_rows();
-            ?></td> </tr>
-            <td>لايوجد</td> <td><?php $this->db->select('question_id_fk,answer_id_fk');
-            $this->db->where(array('question_id_fk' => $value->questation_id_pk,"answer_id_fk"=>4));
-                                 if($school_id == "all"){
-                         }else{
-        
-            $school_id_fk=explode('/',$school_id);
-            $school_id_fk=$school_id_fk[0];
-            $this->db->where(array('school_id_fk' => $school_id_fk));
-                }
-            $this->db->from('poll');
-            $query = $this->db->get();
-            echo $query->num_rows();
-            ?></td> </tr>
+                $query1 = $this->db->get();
+                echo $query1->num_rows();
+                ?></td>  </tr>
+            <td  >إجتماعية</td> <td>
+                <?php
+                $this->db->select('question_id_fk,answer_id_fk');
+                $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>2,'school_id_fk'=>$_POST['school_id']));
+                $this->db->group_by('student_id_fk');
+                $this->db->from('poll');
+                $query2 = $this->db->get();
+                echo $query2->num_rows();
+                ?>
+            </td>     </tr>
+            <td  >إقتصادية</td> <td>
+                <?php
+                $this->db->select('question_id_fk,answer_id_fk');
+                $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>3,'school_id_fk'=>$_POST['school_id']));
+                $this->db->group_by('student_id_fk');
+                $this->db->from('poll');
+                $query3 = $this->db->get();
+                echo $query3->num_rows();
+                ?>
+            </td>   </tr>
+            <td >صحية</td>  <td>
+                <?php
+                $this->db->select('question_id_fk,answer_id_fk');
+                $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>4,'school_id_fk'=>$_POST['school_id']));
+                $this->db->group_by('student_id_fk');
+                $this->db->from('poll');
+                $query4 = $this->db->get();
+                echo $query4->num_rows();
+                ?>
+            </td>  </tr>
+            <td  >سلوكية</td> <td>
+                <?php
+                $this->db->select('question_id_fk,answer_id_fk');
+                $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>5,'school_id_fk'=>$_POST['school_id']));
+                $this->db->group_by('student_id_fk');
+                $this->db->from('poll');
+                $query5 = $this->db->get();
+                echo $query5->num_rows();
+                $all3 = $query1->num_rows() + $query2->num_rows() + $query3->num_rows()+$query4->num_rows() +$query5->num_rows();
+                $total[]=$all3;
+                ?></td> </tr>
+            <!----------------------------------------------------->
+            <?php $all4=0; $q=getrecordbyid(array("questation_id_pk"=>112),"questions"); ?>
+            <td rowspan="4"> <?php echo $q["questation_id_pk"]?> </td>
+            <td rowspan="4"> <?php echo $q["questation_title"]?> </td>
+            <td >المرشد</td>  <td>
+                <?php
+                $this->db->select('question_id_fk,answer_id_fk');
+                $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>1,'school_id_fk'=>$_POST['school_id']));
+                $this->db->group_by('student_id_fk');
+                $this->db->from('poll');
+                $query1 = $this->db->get();
+                echo $query1->num_rows();
+                ?>
+            </td>   </tr>
+            <td >الوكيل</td> <td>
+                <?php
+                $this->db->select('question_id_fk,answer_id_fk');
+                $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>2,'school_id_fk'=>$_POST['school_id']));
+                $this->db->group_by('student_id_fk');
+                $this->db->from('poll');
+                $query2 = $this->db->get();
+                echo $query2->num_rows();
+                ?>
+            </td>  </tr>
+            <td >الوحدة</td>  <td>
+                <?php
+                $this->db->select('question_id_fk,answer_id_fk');
+                $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>3,'school_id_fk'=>$_POST['school_id']));
+                $this->db->group_by('student_id_fk');
+                $this->db->from('poll');
+                $query3 = $this->db->get();
+                echo $query3->num_rows();
+                ?>
+            </td>  </tr>
+            <td >اخرى</td>  <td>
+                <?php
+                $this->db->select('question_id_fk,answer_id_fk');
+                $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>4,'school_id_fk'=>$_POST['school_id']));
+                $this->db->group_by('student_id_fk');
+                $this->db->from('poll');
+                $query4 = $this->db->get();
+                echo $query4->num_rows();
+                $all4 = $query1->num_rows() + $query2->num_rows() + $query3->num_rows()+$query4->num_rows() ;
+                $total[]=$all4;
+                ?></td> </tr>
 
-    <?php endforeach;?>
-    <!-------------------------------------- 2 ------------------------------------------------------------>
-   <?php }elseif(in_array($result->questation_id_pk,$arr3)){ ?>
-       <!-------------------------------------- 3 ------------------------------------------------------------>
-    <?php
-    if($result->questation_id_pk == 111){
-            $q=getrecordbyid(array("questation_id_pk"=>111),"questions"); ?>
-    <td rowspan="5"> <?php echo $q["questation_id_pk"]?> </td>
-    <td rowspan="5"> <?php echo $q["questation_title"]?> </td>
-    <td  >نفسية</td>  <td><?php
-        $this->db->select('question_id_fk,answer_id_fk');
-        $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>1));
-           if($school_id == "all"){
-                         }else{
-            $school_id_fk=explode('/',$school_id);
-            $school_id_fk=$school_id_fk[0];
-            $this->db->where(array('school_id_fk' => $school_id_fk));
-                }
-        $this->db->from('poll');
-        $query = $this->db->get();
-        echo $query->num_rows();
-        ?></td>  </tr>
-    <td  >إجتماعية</td> <td>
-        <?php
-        $this->db->select('question_id_fk,answer_id_fk');
-        $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>2));
-         if($school_id == "all"){
-         }else{
-            $school_id_fk=explode('/',$school_id);
-            $school_id_fk=$school_id_fk[0];
-            $this->db->where(array('school_id_fk' => $school_id_fk));
-         }
-        $this->db->from('poll');
-        $query = $this->db->get();
-        echo $query->num_rows();
-        ?>
-    </td>     </tr>
-    <td  >إقتصادية</td> <td>
-        <?php
-        $this->db->select('question_id_fk,answer_id_fk');
-        $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>3));
-                 if($school_id == "all"){
-         }else{
-            $school_id_fk=explode('/',$school_id);
-            $school_id_fk=$school_id_fk[0];
-            $this->db->where(array('school_id_fk' => $school_id_fk));
-         }
-        $this->db->from('poll');
-        $query = $this->db->get();
-        echo $query->num_rows();
-        ?>
-    </td>   </tr>
-    <td >صحية</td>  <td>
-        <?php
-        $this->db->select('question_id_fk,answer_id_fk');
-        $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>4));
-                 if($school_id == "all"){
-         }else{
-            $school_id_fk=explode('/',$school_id);
-            $school_id_fk=$school_id_fk[0];
-            $this->db->where(array('school_id_fk' => $school_id_fk));
-         }
-        $this->db->from('poll');
-        $query = $this->db->get();
-        echo $query->num_rows();
-        ?>
-    </td>  </tr>
-    <td  >سلوكية</td> <td>
-        <?php
-        $this->db->select('question_id_fk,answer_id_fk');
-        $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>5));
-                 if($school_id == "all"){
-         }else{
-            $school_id_fk=explode('/',$school_id);
-            $school_id_fk=$school_id_fk[0];
-            $this->db->where(array('school_id_fk' => $school_id_fk));
-         }
-        $this->db->from('poll');
-        $query = $this->db->get();
-        echo $query->num_rows();
-        ?>
-    </td>    </tr>
-    <!-----------------------------------------------------> 
-  <?php  } ?>
-  
-    <?php 
-    if($result->questation_id_pk == 112){
-    
-    $q=getrecordbyid(array("questation_id_pk"=>112),"questions"); ?>
-    <td rowspan="4"> <?php echo $q["questation_id_pk"]?> </td>
-    <td rowspan="4"> <?php echo $q["questation_title"]?> </td>
-    <td >المرشد</td>  <td>
-        <?php
-        $this->db->select('question_id_fk,answer_id_fk');
-        $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>1));
-                 if($school_id == "all"){
-         }else{
-            $school_id_fk=explode('/',$school_id);
-            $school_id_fk=$school_id_fk[0];
-            $this->db->where(array('school_id_fk' => $school_id_fk));
-         }
-        $this->db->from('poll');
-        $query = $this->db->get();
-        echo $query->num_rows();
-        ?>
-    </td>   </tr>
-    <td >الوكيل</td> <td>
-        <?php
-        $this->db->select('question_id_fk,answer_id_fk');
-        $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>2));
-                 if($school_id == "all"){
-         }else{
-            $school_id_fk=explode('/',$school_id);
-            $school_id_fk=$school_id_fk[0];
-            $this->db->where(array('school_id_fk' => $school_id_fk));
-         }
-        $this->db->from('poll');
-        $query = $this->db->get();
-        echo $query->num_rows();
-        ?>
-    </td>  </tr>
-    <td >الوحدة</td>  <td>
-        <?php
-        $this->db->select('question_id_fk,answer_id_fk');
-        $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>3));
-                 if($school_id == "all"){
-         }else{
-            $school_id_fk=explode('/',$school_id);
-            $school_id_fk=$school_id_fk[0];
-            $this->db->where(array('school_id_fk' => $school_id_fk));
-         }
-        $this->db->from('poll');
-        $query = $this->db->get();
-        echo $query->num_rows();
-        ?>
-    </td>  </tr>
-    <td >اخرى</td>  <td>
-        <?php
-        $this->db->select('question_id_fk,answer_id_fk');
-        $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>4));
-                 if($school_id == "all"){
-         }else{
-            $school_id_fk=explode('/',$school_id);
-            $school_id_fk=$school_id_fk[0];
-            $this->db->where(array('school_id_fk' => $school_id_fk));
-         }
-        $this->db->from('poll');
-        $query = $this->db->get();
-        echo $query->num_rows();
-        ?>
-    </td>   </tr>
-    <!----------------------------------------------------->
+            <!----------------------------------------------------->
 
-    <?php }
-    
-    if($result->questation_id_pk == 113){
-     $q=getrecordbyid(array("questation_id_pk"=>113),"questions"); ?>
-    <td rowspan="4"> <?php echo $q["questation_id_pk"]?> </td>
-    <td rowspan="4"> <?php echo $q["questation_title"]?> </td>
-    <td  >قوى</td> <td>
-        <?php
-        $this->db->select('question_id_fk,answer_id_fk');
-        $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>1));
-                 if($school_id == "all"){
-         }else{
-            $school_id_fk=explode('/',$school_id);
-            $school_id_fk=$school_id_fk[0];
-            $this->db->where(array('school_id_fk' => $school_id_fk));
-         }
-        $this->db->from('poll');
-        $query = $this->db->get();
-        echo $query->num_rows();
-        ?>
-    </td>   </tr>
-    <td  >متوسط</td> <td>
-        <?php
-        $this->db->select('question_id_fk,answer_id_fk');
-        $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>2));
-                 if($school_id == "all"){
-         }else{
-            $school_id_fk=explode('/',$school_id);
-            $school_id_fk=$school_id_fk[0];
-            $this->db->where(array('school_id_fk' => $school_id_fk));
-         }
-        $this->db->from('poll');
-        $query = $this->db->get();
-        echo $query->num_rows();
-        ?>
-    </td>    </tr>
-    <td  >ضعيف</td>    <td>
-        <?php
-        $this->db->select('question_id_fk,answer_id_fk');
-        $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>3));
-                 if($school_id == "all"){
-         }else{
-            $school_id_fk=explode('/',$school_id);
-            $school_id_fk=$school_id_fk[0];
-            $this->db->where(array('school_id_fk' => $school_id_fk));
-         }
-        $this->db->from('poll');
-        $query = $this->db->get();
-        echo $query->num_rows();
-        ?>
-    </td>   </tr>
-    <td >لاتعتبر على الاطلاق</td>   <td>
-        <?php
-        $this->db->select('question_id_fk,answer_id_fk');
-        $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>4));
-                 if($school_id == "all"){
-         }else{
-            $school_id_fk=explode('/',$school_id);
-            $school_id_fk=$school_id_fk[0];
-            $this->db->where(array('school_id_fk' => $school_id_fk));
-         }
-        $this->db->from('poll');
-        $query = $this->db->get();
-        echo $query->num_rows();
-       
-        ?>
-    </td>     </tr>
+            <?php  $all5=0; $q=getrecordbyid(array("questation_id_pk"=>113),"questions"); ?>
+            <td rowspan="4"> <?php echo $q["questation_id_pk"]?> </td>
+            <td rowspan="4"> <?php echo $q["questation_title"]?> </td>
+            <td  >قوى</td> <td>
+                <?php
+                $this->db->select('question_id_fk,answer_id_fk');
+                $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>1,'school_id_fk'=>$_POST['school_id']));
+                $this->db->group_by('student_id_fk');
+                $this->db->from('poll');
+                $query1 = $this->db->get();
+                echo $query1->num_rows();
+                ?>
+            </td>   </tr>
+            <td  >متوسط</td> <td>
+                <?php
+                $this->db->select('question_id_fk,answer_id_fk');
+                $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>2,'school_id_fk'=>$_POST['school_id']));
+                $this->db->group_by('student_id_fk');
+                $this->db->from('poll');
+                $query2 = $this->db->get();
+                echo $query2->num_rows();
+                ?>
+            </td>    </tr>
+            <td  >ضعيف</td>    <td>
+                <?php
+                $this->db->select('question_id_fk,answer_id_fk');
+                $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>3,'school_id_fk'=>$_POST['school_id']));
+                $this->db->group_by('student_id_fk');
+                $this->db->from('poll');
+                $query3 = $this->db->get();
+                echo $query3->num_rows();
+                ?>
+            </td>   </tr>
+            <td >لاتعتبر على الاطلاق</td>   <td>
+                <?php
+                $this->db->select('question_id_fk,answer_id_fk');
+                $this->db->where(array('question_id_fk' => $q["questation_id_pk"],"answer_id_fk"=>4,'school_id_fk'=>$_POST['school_id']));
+                $this->db->group_by('student_id_fk');
+                $this->db->from('poll');
+                $query4 = $this->db->get();
+                echo $query4->num_rows();
+                $all5 = $query1->num_rows() + $query2->num_rows() + $query3->num_rows()+$query4->num_rows() ;
+                $total[]=$all5;
 
-    <!-------------------------------------- 3 ------------------------------------------------------------>
+                ?></td> </tr>
 
- <?php  
-  }
-  }
-    
-     }
-     ?>
-</tbody>
-</table>
+            <?php
+            $sum=0;
+            foreach ($total as $key =>$values):
+                $sum +=$values;
+            endforeach;
+            ?>
 
-      <?php }else{
-    echo' <div class="col-xs-12 alert alert-danger" >لا توجد  نتائج</div>';
-} 
-     ?>
-     
-     
-     
-     
-     
-     
-     
-     
-     
- 
-     
-     
-     
-     
-     
-     
-     
-     
-     
-   <?
-/*
-      //$totalstudent = 1;
-   // $totalstudent = $_SESSION["first_stage"] + $_SESSION["secound_stage"] + $_SESSION["thired_stage"];?>
-    <?php foreach ($results as $result):?>
-        <?php
-        
-        $this->db->select('*');
-        $this->db->from('poll');
-        $this->db->where("question_id_fk",$result->questation_id_pk);
-        $query = $this->db->get();
-        
-          $counttt = count($query->result());
-          
-      
-        
-        $this->db->select('*');
-        $this->db->from('poll');
-        $query2 = $this->db->get();
-        $counttt_to = count($query2->result());
 
-        //$count=$ci->Mainmodel->countstudent($result["questation_id_pk"]);
-       
+            <!-------------------------------------- 3 ------------------------------------------------------------>
 
-        $percentage=($counttt*100)/$counttt_to?>
-        <tr>
-            <td><?php echo $result->questation_id_pk?></td>
-            <td><?php echo $result->questation_title?></td>
-            <td>
-                <div class="progress progress-xs">
-                    <?php if ($percentage<4):?>
-                        <div class="progress-bar progress-bar-info" style="width: <?php echo $percentage*30?>%"></div>
-                    <?php elseif($percentage>11 && $percentage<10):?>
-                        <div class="progress-bar progress-bar-success" style="width: <?php echo $percentage*30?>%"></div>
 
-                    <?php else:?>
-                        <div class="progress-bar progress-bar-danger" style="width: <?php echo $percentage*30?>%"></div>
-                    <?php endif;?>
-                </div>
-            </td>
-            <td>
-                <?php if ($percentage<7):?>
-                    <span class="badge bg-blue"><?php echo round($percentage,1)?>%</span>
-                <?php elseif($percentage>5 && $percentage<10):?>
-                    <span class="badge bg-green"><?php echo round($percentage,1)?>%</span>
+            </tbody>
+        </table>
 
-                <?php else:?>
-                    <span class="badge bg-red"><?php echo round($percentage,1)?>%</span>
-                <?php endif;?>
 
-            </td>
-        </tr>
-    <?php endforeach;?>
-</table>
-<?php
 
-}else{
-    echo'  <div class="col-xs-12 alert alert-danger" >لا توجد  نتائج</div>';
-}
-*/
-?>
+
+
+
+<? }?>
+
+
+
+
+<? /*******************************************************************************************************/?>
+
+
+
+
+
+     
+     

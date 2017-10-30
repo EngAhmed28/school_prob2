@@ -491,10 +491,6 @@ public function all_answers_report()
             $area_id = ($this->input->post("area_id"));
             $id_offic = ($this->input->post("id_offic"));
             $data['area_office'] = $this->Mainmodel->get_school($area_id, $id_offic);
-            //  print_r($data['area_office']);
-        echo'<pre>';
-            var_dump($this->input->post());
-            echo'</pre>';
             $this->load->view('bc/load2', $data);
         } else {
             $data["content"] = "bc/area_reports";
@@ -503,21 +499,45 @@ public function all_answers_report()
     }
         /////////////////////////
 
-        public function fullreport_area(){
+         public function fullreport_area(){
+           if( $_POST["school_id"] == "all" ){
+                $data['school_id']='all';
+                $this->load->view("bc/fullreport_area_all",$data);
+            }else{
+                $data['school_id']=$_POST["school_id"];
+                $this->load->view("bc/fullreport_area_",$data);
+            }
+        }
 
+
+
+
+
+        /* public function fullreport_area(){
+             
+          // $data["results"]=$this->Mainmodel->schoolreports_area();
+           $this->load->view("bc/fullreport_area");
+        }*/
+
+       /* public function fullreport_area(){
 
             if( $_POST["school_id"] == "all" ){
                 $data["results"]=$this->Mainmodel->schoolreports_area_2();
                 $data['school_id']='all';
-                $this->load->view("bc/fullreport_area2",$data);
-            }else{
-                $data["results"]=$this->Mainmodel->schoolreports_area();
-                $data['school_id']=$_POST["school_id"];
                 $this->load->view("bc/fullreport_area",$data);
+            }else{
+
+                $data["results"]=$this->Mainmodel->schoolreports_area2();
+                testcode(  $data["results"]);
+                $data['school_id']=$_POST["school_id"];
+                $this->load->view("bc/fullreport_area2",$data);
             }
 
 
-        }
+        }*/
+
+
+    
   
 
 }
